@@ -1,0 +1,47 @@
+---
+title: "NYC Restaurant Inspections"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse) 
+library(p8105.datasets)
+library(plotly)
+#Load and Tidy data
+data("rest_inspec")
+
+rest_inspec =
+  rest_inspec %>%
+  filter(grade %in% c("A", "B", "C"), boro != "Missing") %>% 
+  mutate(boro = str_to_title(boro))
+
+```
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### Chart A
+```{r}
+
+```
+
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+### Chart B
+```{r}
+
+```
+
+
+### Chart C
+```{r}
+
+```
+

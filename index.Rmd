@@ -18,6 +18,9 @@ The detailed description can be found [here](https://p8105.com/dataset_restauran
 ### Dashboard
 The [Dashboard](flex_dashboard.html) provides a scatter plot, histogram and a box plot to further explain the association among boroughs, scores and grade of the Cafe in New York City.
 
+### Conclusion
+All grades are assessed with the same cutoff value of scores, and in general, a lower score earns a higher grade. From October 2013 to October 2017, Manhattan has the largest number of Cafe with grade A, and the scores for C in Queens have the largest variation. 
+
 
 
 
