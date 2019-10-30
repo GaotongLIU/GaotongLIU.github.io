@@ -8,3 +8,17 @@ output:
 ## Introduction
 This website has some data analysis for P8105 homework 4. You can learn about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if there is any problem.
 
+
+## Homework 4
+### NYC Restaurant Inspections data
+The New York government checks annually for compliance with policies on food handling, food temperature, personal hygiene of restaurant workers, and vermin control. This dataset records the results of these restaurant inspections including date, restaurant information, violation description, score and grade.
+
+The detailed description can be found [here](https://p8105.com/dataset_restaurant_inspections.html).
+
+### Dashboard
+The [Dashboard](flex_dashboard.html) provides a scatter plot, histogram and a box plot to further explain the association among boroughs, scores and grade of the Cafe in New York City.
+
+
+
+
+
