@@ -44,9 +44,15 @@ rest_inspec %>%
 
 Column {data-width=450}
 -----------------------------------------------------------------------
-### Chart B
-```{r}
 
+### Figure 2. The number of Cafe in A, B, C grade in vaious boroughs in NYC
+
+```{r}
+rest_inspec %>% 
+  filter(str_detect(dba, "[Cc][Aa][Ff][Ee]")) %>%
+  mutate(boro = fct_infreq(boro)) %>% 
+  plot_ly(x  = ~boro, type = "histogram", color = ~grade) %>%
+  layout(xaxis = list(title ="Borough"), yaxis = list(title = "Count"))
 ```
 
 
