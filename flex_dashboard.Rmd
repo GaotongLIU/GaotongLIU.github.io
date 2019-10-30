@@ -26,10 +26,20 @@ rest_inspec =
 Column {data-width=550}
 -----------------------------------------------------------------------
 
-### Chart A
+### Figure 1. The score of Cafe with A, B, C grade on specific inspection date
+
 ```{r}
+rest_inspec %>%  
+  mutate(text_label = str_c("Resturant: ", dba, 
+                            "\nGrade: ", grade, 
+                            '\nScores: ', score)) %>% 
+  filter(str_detect(dba, "[Cc][Aa][Ff][Ee]")) %>%
+  plot_ly(x  = ~inspection_date, y = ~score, type = "scatter", mode = "markers",
+          text = ~text_label, color = ~grade) %>%
+  layout(xaxis = list(title ="Inspection date"), yaxis = list(title = "Score"))
 
 ```
+
 
 
 Column {data-width=450}
