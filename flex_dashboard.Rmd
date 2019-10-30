@@ -55,9 +55,17 @@ rest_inspec %>%
   layout(xaxis = list(title ="Borough"), yaxis = list(title = "Count"))
 ```
 
+### Figure 3. The score of Cafe with A, B, C grade in vaious boroughs in NYC
 
-### Chart C
 ```{r}
+rest_inspec %>% 
+  mutate(text_label = str_c("Resturant: ", dba, 
+                            "\nGrade: ", grade, 
+                            '\nScores: ', score)) %>% 
+  filter(str_detect(dba, "[Cc][Aa][Ff][Ee]")) %>%
+  plot_ly(x  = ~boro, y = ~score, type = "box",
+          text = ~text_label, color = ~grade) %>%
+  layout(xaxis = list(title ="Borough"), yaxis = list(title = "Score"))
 
 ```
 
