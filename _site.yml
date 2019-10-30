@@ -1,0 +1,19 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Dashboard"
+      href: flex_dashboard.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<gl2677@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: https://github.com/GaotongLIU/GaotongLIU.github.io.git
+    - icon: fab fa-linkedin
+      href: https://www.linkedin.com/in/gaotong-liu-003bb2195/
+
+output:
+  html_document:
+    theme: journal
