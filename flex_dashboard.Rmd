@@ -23,6 +23,29 @@ rest_inspec =
 
 ```
 
+Column {.sidebar}
+-----------------------------------------------------------------------
+**Figure 1.** 
+Most of the data are collected from October 2013 to October 2017. The higher the scores the Cafe obtained, the lower the grade it earned.The cutoff score for A is lower than 13, and for B is around 28. However, there are also some exceptions with low score and grade C.
+
+**Figure 2.**
+The number of Cafe in A, B, C grade in vaious boroughs in NYC.
+
+```{r}
+rest_inspec %>% 
+  filter(str_detect(dba, "[Cc][Aa][Ff][Ee]"))  %>% 
+  group_by(boro, grade) %>% 
+  summarize(n = n()) %>% 
+  spread(key = grade, value = n) %>% 
+  arrange(desc(A)) %>% 
+  knitr::kable()
+```
+
+Manhattan has the largest number of Cafe with grade A.
+
+**Figure 3 .**
+The scores for C vary a lot in Manhattan and Queens.
+  
 Column {data-width=550}
 -----------------------------------------------------------------------
 
