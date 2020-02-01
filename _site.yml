@@ -17,12 +17,16 @@ navbar:
   - text: "Project"
     menu:
       - text: "World Happyiness report"
+      - text: "Exploratory Analysis"
+        href: World_Happiness.html
       - text: "Global animation Map"
-        href: page_a.html
+        href: global_animation_plot.html
       - text: "Relationship Shinny"
-        href: page_b.html
+        href: https://yuqimiao.shinyapps.io/association_plot-copy/
       - text: "Mutiple Linear Regression"
-        href: page_b.html
+        href: MLR.html
+      - text: "Data"
+        href: data.html
       - text: "---------"
   - text: "Email"
     icon: fa-envelope fa-lg

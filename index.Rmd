@@ -11,7 +11,7 @@ Hi! I am Gaotong LIU, and you can just call me Gloria. I am a Master of Science 
 This website has some data analysis projects for open data. I hope you can enjoy my analysis and I am welcome any discussion about the projects. You can know more about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if you want to contact me.
 
 ## Projects
-### [World Happiness Report]()
+### World Happiness Report
 
 Are people getting  happier over time?
 Why people are happier? 
@@ -21,6 +21,6 @@ Is happiness related to sucide rate and terrorism?
 
 * To visualize the global happiness trend, I draw a [Global animation Map](global_animation_plot.html).
 
-* To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/Gaotong/).
+* To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/association_plot-copy/).
 
-* To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression]()
+* To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression](MLR.html)

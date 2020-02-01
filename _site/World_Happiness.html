@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exploratory Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About me
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/gaotong-liu-003bb2195/">
+    <span class="fab fa fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">World Happyiness report</li>
+    <li>
+      <a href="World_Happiness.html">Exploratory Analysis</a>
+    </li>
+    <li>
+      <a href="global_animation_plot.html">Global animation Map</a>
+    </li>
+    <li>
+      <a href="https://yuqimiao.shinyapps.io/association_plot-copy/">Relationship Shinny</a>
+    </li>
+    <li>
+      <a href="MLR.html">Mutiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="data.html">Data</a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;gl2677@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Email
+  </a>
+</li>
+<li>
+  <a href="https://github.com/GaotongLIU/GaotongLIU.github.io.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exploratory Analysis</h1>
+
+</div>
+
+
+<pre class="r"><code>happy = 
+  read_csv(&quot;data/final_data_all_country.csv&quot;) %&gt;% 
+  rename( &quot;country&quot; = country_name,
+           &quot;happiness_score&quot; = life_ladder,
+           &quot;gdp&quot; = log_gdp_per_capita,
+           &quot;life_expectance&quot; = healthy_life_expectancy_at_birth,
+           &quot;freedom&quot; = freedom_to_make_life_choices,
+           &quot;corruption&quot; = perceptions_of_corruption)  %&gt;% 
+  unique() %&gt;% 
+  mutate(o_gdp = exp(gdp)) %&gt;%
+  mutate(develop = ifelse(o_gdp &gt; 25000, &quot;developed&quot;, &quot;developing&quot;))  </code></pre>
+<pre class="r"><code>Asia = 
+  c(&quot;Israel&quot;, &quot;United Arab Emirates&quot;, &quot;Singapore&quot;, &quot;Thailand&quot;, &quot;Taiwan Province of China&quot;,
+    &quot;Qatar&quot;, &quot;Saudi Arabia&quot;, &quot;Kuwait&quot;, &quot;Bahrain&quot;, &quot;Malaysia&quot;, &quot;Uzbekistan&quot;, &quot;Japan&quot;,
+    &quot;South Korea&quot;, &quot;Turkmenistan&quot;, &quot;Kazakhstan&quot;, &quot;Turkey&quot;, &quot;Hong Kong S.A.R., China&quot;, &quot;Philippines&quot;,
+    &quot;Jordan&quot;, &quot;China&quot;, &quot;Pakistan&quot;, &quot;Indonesia&quot;, &quot;Azerbaijan&quot;, &quot;Lebanon&quot;, &quot;Vietnam&quot;,
+    &quot;Tajikistan&quot;, &quot;Bhutan&quot;, &quot;Kyrgyzstan&quot;, &quot;Nepal&quot;, &quot;Mongolia&quot;, &quot;Palestinian Territories&quot;,
+    &quot;Iran&quot;, &quot;Bangladesh&quot;, &quot;Myanmar&quot;, &quot;Iraq&quot;, &quot;Sri Lanka&quot;, &quot;Armenia&quot;, &quot;India&quot;, &quot;Georgia&quot;,
+    &quot;Cambodia&quot;, &quot;Afghanistan&quot;, &quot;Yemen&quot;, &quot;Syria&quot;)
+
+Europe = 
+  c(&quot;Norway&quot;, &quot;Denmark&quot;, &quot;Iceland&quot;, &quot;Switzerland&quot;, &quot;Finland&quot;,
+    &quot;Netherlands&quot;, &quot;Sweden&quot;, &quot;Austria&quot;, &quot;Ireland&quot;, &quot;Germany&quot;,
+    &quot;Belgium&quot;, &quot;Luxembourg&quot;, &quot;United Kingdom&quot;, &quot;Czech Republic&quot;,
+    &quot;Malta&quot;, &quot;France&quot;, &quot;Spain&quot;, &quot;Slovakia&quot;, &quot;Poland&quot;, &quot;Italy&quot;,
+    &quot;Russia&quot;, &quot;Lithuania&quot;, &quot;Latvia&quot;, &quot;Moldova&quot;, &quot;Romania&quot;,
+    &quot;Slovenia&quot;, &quot;North Cyprus&quot;, &quot;Cyprus&quot;, &quot;Estonia&quot;, &quot;Belarus&quot;,
+    &quot;Serbia&quot;, &quot;Hungary&quot;, &quot;Croatia&quot;, &quot;Kosovo&quot;, &quot;Montenegro&quot;,
+    &quot;Greece&quot;, &quot;Portugal&quot;, &quot;Bosnia and Herzegovina&quot;, &quot;Macedonia&quot;,
+    &quot;Bulgaria&quot;, &quot;Albania&quot;, &quot;Ukraine&quot;)
+
+North_America = 
+  c(&quot;Canada&quot;, &quot;Costa Rica&quot;, &quot;United States&quot;, &quot;Mexico&quot;,  
+    &quot;Panama&quot;,&quot;Trinidad and Tobago&quot;, &quot;El Salvador&quot;, &quot;Belize&quot;, &quot;Guatemala&quot;,
+    &quot;Jamaica&quot;, &quot;Nicaragua&quot;, &quot;Dominican Republic&quot;, &quot;Honduras&quot;,
+    &quot;Haiti&quot;)
+
+Sorth_America =  
+  c(&quot;Chile&quot;, &quot;Brazil&quot;, &quot;Argentina&quot;, &quot;Uruguay&quot;,
+    &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Bolivia&quot;, &quot;Peru&quot;,
+    &quot;Paraguay&quot;, &quot;Venezuela&quot;)
+
+Australia = 
+  c(&quot;New Zealand&quot;, &quot;Australia&quot;)
+
+happy = happy %&gt;% 
+  mutate(continent = case_when(
+    country %in% Asia ~ &quot;Asia&quot;,
+    country %in% Europe ~ &quot;Europe&quot;,
+    country %in% North_America ~ &quot;North America&quot;,
+    country %in% Sorth_America ~ &quot;South America&quot;,
+    country %in% Australia ~ &quot;Australia&quot;,
+    TRUE ~ as.character(&quot;Africa&quot;)
+  ))</code></pre>
+<p>To better show the association of other factors and happiness score, we standardize the value of other factors by subtracting mean and dividing standard error. This is because the scale of <code>gdp</code> and <code>life_expectancy</code> are dramatically different from other factors.</p>
+<pre class="r"><code>happy_standard = happy %&gt;% 
+  mutate(s_gdp = scale(gdp),
+         s_social_support = scale(social_support),
+         s_life_expectance = scale(life_expectance),
+         s_freedom = scale(freedom),
+         s_positive_affect = scale(positive_affect),
+         s_negative_affect = scale(negative_affect),
+         s_generosity  = scale(generosity),
+         s_corruption  = scale(corruption)) %&gt;%
+  select(-c(gdp:corruption), -o_gdp)</code></pre>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory analysis</h2>
+<div id="happiness-score-of-all-countries-changes-over-time" class="section level3">
+<h3><strong>Happiness score of all countries changes over time</strong></h3>
+<ul>
+<li>Worldwide</li>
+</ul>
+<pre class="r"><code>plot1 = happy %&gt;% 
+  group_by(year) %&gt;% 
+  summarise(year_mean_score = mean(happiness_score)) %&gt;% 
+  ggplot(aes(x = year, y = year_mean_score)) +
+  geom_path() +
+  labs(title = &quot;Happiness score changes worldwide: 2007-2018&quot;,
+       x = &quot;Year&quot;,
+       y =  &quot;Happiness score&quot;) +
+  scale_x_continuous(
+    breaks = c(2007,2008,2009,2010,2011, 2012, 2013,2014,2015,2016,2017,2018))
+
+plot1+transition_reveal(year)</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-1-1.gif" width="70%" /></p>
+<p>From the first plot, we can easily find that the mean happiness score increases from 2007 to 2010, and gradually decreases to the lowest point in 2014. Finally, it increases in recent years.</p>
+<ul>
+<li>By continent and developing level</li>
+</ul>
+<pre class="r"><code>plot2 = happy %&gt;% 
+  group_by(year, continent) %&gt;% 
+  summarise(year_mean_score = mean(happiness_score)) %&gt;% 
+  ggplot(aes(x = year, y = year_mean_score, color = continent)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = lm, size  = 0.5, 
+              se = FALSE, color = &quot;red&quot;) +  
+  facet_grid(. ~ continent) +
+  labs(title = &quot;Happiness score changes in various continent: 2007-2018&quot;,
+       x = &quot;Year&quot;,
+       y =  &quot;Happiness score&quot;) +
+ theme(legend.position = &quot;none&quot;)
+plot3 = happy %&gt;% 
+  drop_na(develop) %&gt;%
+  group_by(year, develop) %&gt;% 
+  summarise(year_mean_score = mean(happiness_score)) %&gt;% 
+  ggplot(aes(x = year, y = year_mean_score, color = develop)) +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method = lm, size  = 0.5, 
+              se = FALSE, color = &quot;red&quot;) +  
+  facet_grid(. ~ develop) +
+  labs(title = &quot;Happiness score changes in developed and developing countries: 2007-2018&quot;,
+       x = &quot;Year&quot;,
+       y =  &quot;Happiness score&quot;)+
+ theme(legend.position = &quot;none&quot;)
+
+plot2/plot3</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<p>From the second plot, we divide these countries into different regions by the geographic continent. Australia has the overall highest and Africa has the overall lowest happiness score. Only Europe and Asia show the general increasing trend of happiness score over time.</p>
+<p>We can roughly further divide these continents into three groups base on the happiness scores. The high happiness score group contains Australis, the medium happiness score group contains Europe, North America and South America, and the low happiness score group contains Africa and Asia.</p>
+<p>From the third plot, the mean happiness score is obviously higher in developed countries than it in developing countries.</p>
+</div>
+<div id="the-correlation-plot-for-happiness-score-and-other-factors-worldwide" class="section level3">
+<h3><strong>The correlation plot for happiness score and other factors: worldwide</strong></h3>
+<pre class="r"><code>happy_standard %&gt;% 
+  pivot_longer(s_gdp:s_corruption,
+               names_to = &quot;standard_factors&quot;,
+               values_to = &quot;standard_value&quot;) %&gt;% 
+  ggplot(aes(x = happiness_score, y = standard_value,
+             color  = standard_factors)) +
+  geom_point() +
+  geom_boxplot(alpha = .8) +  
+  geom_smooth(method = lm, color = &quot;red&quot;) +
+  facet_grid(. ~ standard_factors) +
+  labs(x = &quot;Happiness score&quot;, 
+       y = &quot;Standard score of other factors&quot;, 
+       title = &quot;Happiness score against other factors worldwide: 2007-2018&quot;) + 
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+  select(-c(country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Happiness score against other factors worldwide: 2007-2018&quot;,
+                 tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar = c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-3-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>From the scatterplot, the factors <code>negative_affect</code> and <code>corruption</code> have the negative association with happiness score, but <code>gdp</code>, <code>social support</code>, <code>life_expectancy</code>, <code>freedom</code>, <code>positive_affect</code> and <code>generosity</code> have the positive association.</p></li>
+<li><p>From the correlation matrix plot, the happiness score is highly associated with <code>gdp</code>, <code>social_support</code> and <code>life_expectancy</code>(&gt; 0.7). In addition, <code>gdp</code> and <code>life_expctancy</code> are highly correlated with each other(&gt; 0.7).</p></li>
+</ul>
+</div>
+<div id="the-correlation-plot-for-happiness-score-and-other-factors-continent" class="section level3">
+<h3><strong>The correlation plot for happiness score and other factors : continent</strong></h3>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+  filter(continent == &quot;Australia&quot;) %&gt;% 
+  select(-c(country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Australia: 2007-2018&quot;,
+                 tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar=c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+  filter(continent %in% c(&quot;Europe&quot;, &quot;North America&quot;, &quot;South America&quot;))  %&gt;% 
+  select(-c(country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Europe, North America, South America: 2007-2018&quot;,
+                 tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar = c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-4-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+ filter(continent %in% c(&quot;Africa&quot;, &quot;Asia&quot;)) %&gt;% 
+  select(-c(country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Africa, Asia: 2007-2018 &quot;,
+                 tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar=c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-4-3.png" width="70%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>Australia has the highest happiness score, and the score does not have a high correlation with other factors(not greater than 0.4). <code>gdp</code> is strongly positively associated with <code>corruption</code>(0.69) and negatively associated with <code>positive_affe t</code>(-0.86)</p></li>
+<li><p>Europe, North America, South America have the medium happiness score, and the score has a moderate correlation with <code>gdp</code>, <code>social support</code>, <code>life_expectancy</code>, <code>freedom</code>, <code>positive_affect</code> and <code>corruption</code>(0.6 - 0.7)</p></li>
+<li><p>Africa and Asia have the lowest happiness score, and the score has a moderate correlation with <code>gdp</code>, <code>social support</code> and <code>life_expectancy</code>(0.6 - 0.7).</p></li>
+</ul>
+</div>
+<div id="the-correlation-plot-for-happiness-score-and-othe-factors-developing-level" class="section level3">
+<h3><strong>The correlation plot for happiness score and othe factors : developing level</strong></h3>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+  filter(develop == &quot;developing&quot;) %&gt;% 
+  select(-c( country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Developing: 2007-2018&quot;,
+                 tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar=c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>happy %&gt;% 
+  drop_na() %&gt;%
+  filter(develop == &quot;developed&quot;) %&gt;% 
+  select(-c(country, year, continent, develop,o_gdp)) %&gt;% 
+  cor() %&gt;%
+  corrplot.mixed(title = &quot;Developed: 2007-2018&quot;,
+                  tl.cex = 1.2, tl.pos = &quot;lt&quot;, number.cex = 1.2,
+                  mar=c(0,0,1,0))</code></pre>
+<p><img src="World_Happiness_files/figure-html/unnamed-chunk-5-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>Developing countries have lower happiness score, and the score has a moderate correlation with <code>gdp</code>, <code>social support</code> and <code>life_expectancy</code>(around 0.6).</p></li>
+<li><p>Developed countries have higher happiness score , and the score has a moderate correlation with <code>social support</code>,<code>freedom</code>, <code>positive_affect</code>, <code>negative_affect</code>, <code>generosity</code> and <code>corruption</code> (around 0.6)</p></li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
