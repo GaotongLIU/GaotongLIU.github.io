@@ -6,22 +6,21 @@ output:
     toc_float: true
 ---
 ## Introduction
-This website has some data analysis for P8105 homework 4. You can learn about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if there is any problem.
+Hi! I am Gaotong LIU, and you can just call me Gloria. I am a Master of Science student in Biostatistics expecting to graduate in May 2021, at Mailman School of Public Health at Columbia University. 
 
+This website has some data analysis projects for open data. I hope you can enjoy my analysis and I am welcome any discussion about the projects. You can know more about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if you want to contact me.
 
-## Homework 4
-### NYC Restaurant Inspections data
-The New York government checks annually for compliance with policies on food handling, food temperature, personal hygiene of restaurant workers, and vermin control. This dataset records the results of these restaurant inspections including date, restaurant information, violation description, score and grade.
+## Projects
+### [World Happiness Report]()
 
-The detailed description can be found [here](https://p8105.com/dataset_restaurant_inspections.html).
+Are people getting  happier over time?
+Why people are happier? 
+Is happiness related to sucide rate and terrorism?
 
-### Dashboard
-The [Dashboard](flex_dashboard.html) provides a scatter plot, histogram and a box plot to further explain the association among boroughs, scores and grade of the **Cafe** in New York City.
+<img src="images/The-World-Happiness-Report.jpg" style="width:50%">
 
-### Conclusion
-All grades are assessed with the same cutoff value of scores, and in general, a lower score earns a higher grade. From October 2013 to October 2017, Manhattan has the largest number of Cafe with grade A, and the scores for C in Queens have the largest variation. 
+* To visualize the global happiness trend, I draw a [Global animation Map](global_animation_plot.html).
 
+* To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/Gaotong/).
 
-
-
-
+* To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression]()
