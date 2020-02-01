@@ -6,7 +6,11 @@ output:
     toc_float: true
 ---
 
-My name is Gaotong LIU, and you can just call me Gloria. I am a MS Biostatistics student at Columbia University. Detailed resume can be found [here](CV-Gaotong Liu.pdf).
+I am a Master of Science student in Biostatistics expecting to graduate in May 2021, at Mailman School of Public Health at Columbia University. Detailed resume can be found [here](Resume.pdf).
 
-### I love kittens and puppies!!!
+### I love traveling !!!
+This my photo taken during the winter vocation in San Diego this year.
+<img src="images/san diego.jpg" style="width:75%">
+
+### I love kittens and puppies !!!
 <img src="images/kittens and puppies.jpg" style="width:75%">
