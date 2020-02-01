@@ -1,5 +1,5 @@
 ---
-title: "About me"
+title: "About"
 output: 
   html_document:
     toc: true
@@ -10,7 +10,11 @@ I am a Master of Science student in Biostatistics expecting to graduate in May 2
 
 ### I love traveling !!!
 This my photo taken during the winter vocation in San Diego this year.
+
 <img src="images/san diego.jpg" style="width:75%">
 
-### I love kittens and puppies !!!
+### I love kittens and puppies  !!!
+
 <img src="images/kittens and puppies.jpg" style="width:75%">
+
+

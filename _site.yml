@@ -1,19 +1,34 @@
-name: "Yay internet!"
-output_dir: "."
+name: "my-website"
 navbar:
-  title: "Home"
-  right:
-    - text: "About"
+  title: "My Website"
+  type: inverse
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "About me"
+      icon: fa-info
       href: about.html
-    - text: "Dashboard"
-      href: flex_dashboard.html
-    - icon: fa-envelope fa-lg
-      href: mailto:<gl2677@cumc.columbia.edu>
-    - icon: fa-github fa-lg
-      href: https://github.com/GaotongLIU/GaotongLIU.github.io.git
-    - icon: fab fa-linkedin
+    - text: "LinkedIn"
+      icon: fab fa-linkedin
       href: https://www.linkedin.com/in/gaotong-liu-003bb2195/
+      
+  right:
+  - text: "Project"
+    menu:
+      - text: "World Happyiness report"
+      - text: "Global animation Map"
+        href: page_a.html
+      - text: "Relationship Shinny"
+        href: page_b.html
+      - text: "Mutiple Linear Regression"
+        href: page_b.html
+      - text: "---------"
+  - text: "Email"
+    icon: fa-envelope fa-lg
+    href: mailto:<gl2677@cumc.columbia.edu>
+  - text: "GitHub"
+    icon: fa-github fa-lg
+    href: https://github.com/GaotongLIU/GaotongLIU.github.io.git
 
-output:
-  html_document:
-    theme: journal
+  
