@@ -112,6 +112,8 @@ happy1 = read_csv("data/final_data_all_country.csv") %>%
          "freedom" = freedom_to_make_life_choices,
          "corruption" = perceptions_of_corruption) 
 
+
+
 location = read_csv("data/concap.csv") %>% 
   janitor::clean_names() %>% 
   select(country_name,capital_latitude,capital_longitude) %>% 
@@ -152,10 +154,10 @@ happy_location_raw = left_join(happy1, location, by = "country")
 happy_location = 
   bind_rows(happy_location_raw,happy_location_lost) %>% 
   drop_na(capital_latitude,capital_longitude)
-
+write.csv(happy_location,file="data/happy_location.csv",quote=F,row.names = F)
 ```
 
-Furthermore, I find [capital](data/concap.csv) longitude and latitude dataset, [suicide]() dataset and [terrorism]() dataset to draw global animation map and conduct relationship analysis.
+Furthermore, I find [capital](data/concap.csv) longitude, latitude dataset and [suicide](data/sucide.csv) dataset to draw global animation map and conduct relationship analysis.
 
 ### Adding new variables
 #### Develop level
@@ -221,7 +223,17 @@ happy = happy %>%
     country %in% Australia ~ "Australia",
     TRUE ~ as.character("Africa")
   ))
+
+write.csv(happy,file="data/happy.csv",quote=F,row.names = F)
 ```
 
 I divide these countries into five continents including Asia, Europe, North America, South America and Australia.
+
+```{r}
+suicide = read_csv("data/sucide.csv") %>% 
+  select(country,year,sucide_rate = `suicides/100k pop`) %>% 
+  filter(year >= 2007) %>% 
+  arrange(desc(year))
+write.csv(suicide, file = "data/suicide_clean.csv")
+```
 

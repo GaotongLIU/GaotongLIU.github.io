@@ -488,6 +488,8 @@ write.csv(final_data,file=&quot;data/final_data_all_country.csv&quot;,quote=F,ro
          &quot;freedom&quot; = freedom_to_make_life_choices,
          &quot;corruption&quot; = perceptions_of_corruption) 
 
+
+
 location = read_csv(&quot;data/concap.csv&quot;) %&gt;% 
   janitor::clean_names() %&gt;% 
   select(country_name,capital_latitude,capital_longitude) %&gt;% 
@@ -527,8 +529,9 @@ happy_location_raw = left_join(happy1, location, by = &quot;country&quot;)
     
 happy_location = 
   bind_rows(happy_location_raw,happy_location_lost) %&gt;% 
-  drop_na(capital_latitude,capital_longitude)</code></pre>
-<p>Furthermore, I find <a href="data/concap.csv">capital</a> longitude and latitude dataset, <a href="">suicide</a> dataset and <a href="">terrorism</a> dataset to draw global animation map and conduct relationship analysis.</p>
+  drop_na(capital_latitude,capital_longitude)
+write.csv(happy_location,file=&quot;data/happy_location.csv&quot;,quote=F,row.names = F)</code></pre>
+<p>Furthermore, I find <a href="data/concap.csv">capital</a> longitude, latitude dataset and <a href="data/sucide.csv">suicide</a> dataset to draw global animation map and conduct relationship analysis.</p>
 </div>
 <div id="adding-new-variables" class="section level3">
 <h3>Adding new variables</h3>
@@ -591,8 +594,15 @@ happy = happy %&gt;%
     country %in% Sorth_America ~ &quot;South America&quot;,
     country %in% Australia ~ &quot;Australia&quot;,
     TRUE ~ as.character(&quot;Africa&quot;)
-  ))</code></pre>
+  ))
+
+write.csv(happy,file=&quot;data/happy.csv&quot;,quote=F,row.names = F)</code></pre>
 <p>I divide these countries into five continents including Asia, Europe, North America, South America and Australia.</p>
+<pre class="r"><code>suicide = read_csv(&quot;data/sucide.csv&quot;) %&gt;% 
+  select(country,year,sucide_rate = `suicides/100k pop`) %&gt;% 
+  filter(year &gt;= 2007) %&gt;% 
+  arrange(desc(year))
+write.csv(suicide, file = &quot;data/suicide_clean.csv&quot;)</code></pre>
 </div>
 </div>
 

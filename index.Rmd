@@ -21,6 +21,6 @@ Is happiness related to sucide rate and terrorism?
 
 * To visualize the global happiness trend, I draw a [Global animation Map](global_animation_plot.html).
 
-* To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/association_plot-copy/).
+* To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/Rshinny/).
 
 * To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression](MLR.html)
