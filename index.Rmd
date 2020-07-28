@@ -13,7 +13,7 @@ This website has some data analysis projects for open data. I hope you can enjoy
 ## Projects
 ### World Happiness Report
 
-Are people getting  happier over time?
+Are people getting happier over time?
 Why people are happier? 
 Is happiness related to sucide rate and terrorism?
 
@@ -23,4 +23,18 @@ Is happiness related to sucide rate and terrorism?
 
 * To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/Rshinny/).
 
-* To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression](MLR.html)
+* To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression](MLR.html).
+
+
+### COVID-19 DSCovR Dashboard 
+
+How COVID-19 case and death number changes over time among states in US?<br />
+How age, race/ethnicity and sex distribute among COVID-19 case, hospitalization and death?<br />
+How state policies change over time?<br />
+<br />
+<img src="images/DSCovR Dashboard .jpg">
+<br />
+
+* The [Demographics by State COVID-19 Reporting (DSCovR) Dashboard](https://gaotongliu.shinyapps.io/dscovr_dashboard/) allows policymakers, scientists, and the lay public to visualize and compare COVID-19 time trends and demographic information among cases, hospitalizations, and deaths across states.
+
+* Meta analysis to study comorbidity and COVID-19 case and death(Waiting for publication).

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About me
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/gaotong-liu-003bb2195/">
+    <span class="fab fa fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">World Happyiness report</li>
+    <li>
+      <a href="World_Happiness.html">Exploratory Analysis</a>
+    </li>
+    <li>
+      <a href="global_animation_plot.html">Global animation Map</a>
+    </li>
+    <li>
+      <a href="https://yuqimiao.shinyapps.io/association_plot-copy/">Relationship Shinny</a>
+    </li>
+    <li>
+      <a href="MLR.html">Mutiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="data.html">Data</a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;gl2677@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Email
+  </a>
+</li>
+<li>
+  <a href="https://github.com/GaotongLIU/GaotongLIU.github.io.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data</h1>
+
+</div>
+
+
+<div id="world-happiness-report-data" class="section level3">
+<h3>World Happiness Report data</h3>
+<p>The original dataset <a href="data/WHR.xls">WHR.xls</a> was gathered primarily from <em>The World Happiness Report</em> created by the United Nations Sustainable Development Solutions Network <a href="https://worldhappiness.report/">(UNSDSN)</a>. Data was collected by asking respondents to value their lives today on a 0 to 10 scale, with the worst possible life as a 0 and the best possible life as a 10. This gave us a chance to compare happiness levels and inequality in different parts of the world.</p>
+</div>
+<div id="variable-definition" class="section level3">
+<h3>Variable definition</h3>
+<p>Outcome and factors that we’re interested in：</p>
+<ul>
+<li><p><code>Life Ladder</code>: Happiness score or subjective well-being, with steps numbered from 0 at the bottom to 10 at the top.(we renamed it as <code>happiness_score</code> in dataset)</p></li>
+<li><p><code>LOG GDP per capita</code>: the log value of GDP per capita (variable name gdp) in purchasing power parity (PPP).(we renamed it as <code>gdp</code> in dataset)</p></li>
+<li><p><code>Social support</code>: the national average of the binary responses (either 0 or 1) to the GWP(Gallup World Poll) question “If you were in trouble, do you have relatives or friends you can count on to help you whenever you need them, or not?”(we renamed it as <code>social_support</code> in dataset)</p></li>
+<li><p><code>Healthy life expectancy at birth</code>: Healthy life expectancies at birth are based on the data extracted from the World Health Organization’s (WHO) Global Health Observatory data repository.(we renamed it as <code>life_expectance</code> in dataset)</p></li>
+<li><p><code>Freedom to make life choices</code>: the national average of responses (either 0 or 1) to the GWP question “Are you satisfied or dissatisfied with your freedom to choose what you do with your life?” (we renamed it as <code>freedom</code> in dataset)</p></li>
+<li><p><code>Generosity</code>: the residual of regressing national average of response to the GWP question “Have you donated money to a charity in the past month?” on GDP per capita.(we renamed it as <code>generosity</code> in dataset)</p></li>
+<li><p><code>Perceptions of corruption</code>: the national average of the survey responses to two questions in the GWP: “Is corruption widespread throughout the government or not” and “Is corruption widespread within businesses or not?” The overall perception is just the average of the two 0-or-1 responses.(we renamed it as <code>corruption</code> in dataset)</p></li>
+<li><p><code>Positive affect</code>: the average of three positive affect measures in GWP: happiness, laugh and enjoyment in the GWP, respectively the responses to “Did you experience the following feelings during A LOT OF THE DAY yesterday? How about Happiness?”, “Did you smile or laugh a lot yesterday?”, and “Did you experience the following feelings during A LOT OF THE DAY yesterday? How about Enjoyment?”.(we renamed it as <code>positive_affect</code> in dataset)</p></li>
+<li><p><code>Negative affect</code>: the average of three negative affect measures like worry, sadness and anger in GWP, respectively the responses to “Did you experience the following feelings during A LOT OF THE DAY yesterday? How about Worry?”, “Did you experience the following feelings during A LOT OF THE DAY yesterday? How about Sadness?”, and “Did you experience the following feelings during A LOT OF THE DAY yesterday? How about Anger?” (we renamed it as <code>negative_affect</code> in dataset)</p></li>
+</ul>
+</div>
+<div id="data-tidy" class="section level3">
+<h3>Data Tidy</h3>
+<pre class="r"><code>data_all = read_excel(&quot;./data/WHR.xls&quot;)%&gt;% 
+ janitor::clean_names() 
+
+sum_na = function(x){
+  sum = sum(is.na(x))
+  sum}
+
+missing_number = map(data_all,sum_na) %&gt;% 
+  as.data.frame()  
+
+final_data = 
+  data_all %&gt;% 
+  filter(year %in% c(2007:2018)) %&gt;% 
+  select(country_name:negative_affect)
+
+write.csv(final_data,file=&quot;data/final_data_all_country.csv&quot;,quote=F,row.names = F)</code></pre>
+<p>I decide to keep variables with the number of missing values less than 100 and the observations from 2007-2018. This dataset <a href="data/final_data_all_country.csv">final_data_all_country.csv</a> contains 11 variables with 1588 observations from 164 countries without deleting any missing values.</p>
+</div>
+<div id="combining-different-datasets" class="section level3">
+<h3>Combining different datasets</h3>
+<pre class="r"><code>happy1 = read_csv(&quot;data/final_data_all_country.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  unique %&gt;% 
+  mutate(label = str_c(&quot;&lt;b&gt;Happiness: &quot;, round(life_ladder,2), 
+                      &quot;&lt;/b&gt;&lt;br&gt;Country : &quot;, country_name,
+                      sep = &quot;&quot;),
+        code = countrycode(country_name, &#39;country.name&#39;, &#39;iso3c&#39;),## match code
+        code = replace_na(code,&quot;XKX&quot;)) %&gt;% 
+  rename(&quot;country&quot; = country_name,
+         &quot;happiness_score&quot; = life_ladder,
+         &quot;gdp&quot; = log_gdp_per_capita,
+         &quot;life_expectance&quot; = healthy_life_expectancy_at_birth,
+         &quot;freedom&quot; = freedom_to_make_life_choices,
+         &quot;corruption&quot; = perceptions_of_corruption) 
+
+
+
+location = read_csv(&quot;data/concap.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  select(country_name,capital_latitude,capital_longitude) %&gt;% 
+  rename(&quot;country&quot; = country_name)
+
+happy_location_raw = left_join(happy1, location, by = &quot;country&quot;)
+
+# Find countries whose locations of capitals could not match
+ list &lt;-which(rowSums(is.na(happy_location_raw %&gt;% 
+        select(capital_latitude))) &gt; 0)
+ data_all_na &lt;- happy_location_raw[list,] 
+ 
+ happy_location_lost =  
+ happy_location_raw[list,] %&gt;% 
+   mutate(capital_latitude = case_when(
+    country == &quot;Congo (Brazzaville)&quot; ~ -4.267778,
+    country == &quot;Ivory Coast&quot; ~ 6.85,
+    country == &quot;Gambia&quot; ~ 13.466667,
+    country == &quot;North Cyprus&quot; ~ 35.183333,
+    country == &quot;Palestinian Territories&quot; ~ 31.516667,
+    country == &quot;Taiwan Province of China&quot;~ 25.066667,
+    country == &quot;Somaliland region&quot;~ 9.55,
+    country == &quot;Congo (Kinshasa)&quot;~ -4.316667,
+    country == &quot;Hong Kong S.A.R. of China&quot;~ 114.10000
+    ),
+    capital_longitude = case_when(
+    country == &quot;Congo (Brazzaville)&quot; ~ 15.291944,
+    country == &quot;Ivory Coast&quot; ~ 5.3,
+    country == &quot;Gambia&quot; ~ -16.6,
+    country == &quot;North Cyprus&quot; ~ 33.366667,
+    country == &quot;Palestinian Territories&quot; ~ 34.45,
+    country == &quot;Taiwan Province of China&quot;~ 121.516667,
+    country == &quot;Somaliland region&quot;~ 44.05,
+    country == &quot;Congo (Kinshasa)&quot;~ 15.316667,
+    country == &quot;Hong Kong S.A.R. of China&quot;~ 22.20000)
+    ) 
+    
+happy_location = 
+  bind_rows(happy_location_raw,happy_location_lost) %&gt;% 
+  drop_na(capital_latitude,capital_longitude)
+write.csv(happy_location,file=&quot;data/happy_location.csv&quot;,quote=F,row.names = F)</code></pre>
+<p>Furthermore, I find <a href="data/concap.csv">capital</a> longitude, latitude dataset and <a href="data/sucide.csv">suicide</a> dataset to draw global animation map and conduct relationship analysis.</p>
+</div>
+<div id="adding-new-variables" class="section level3">
+<h3>Adding new variables</h3>
+<div id="develop-level" class="section level4">
+<h4>Develop level</h4>
+<p>I divide these countries into developing and developed country by the criteria that some <a href="https://www.investopedia.com/updates/top-developing-countries/">economists</a> prefer to see a country with per capita GDP of at least $25,000 to be declared as developed.</p>
+<pre class="r"><code>happy = 
+  read_csv(&quot;data/final_data_all_country.csv&quot;) %&gt;% 
+  rename( &quot;country&quot; = country_name,
+           &quot;happiness_score&quot; = life_ladder,
+           &quot;gdp&quot; = log_gdp_per_capita,
+           &quot;life_expectance&quot; = healthy_life_expectancy_at_birth,
+           &quot;freedom&quot; = freedom_to_make_life_choices,
+           &quot;corruption&quot; = perceptions_of_corruption)  %&gt;% 
+  unique() %&gt;% 
+  mutate(o_gdp = exp(gdp)) %&gt;%
+  mutate(develop = ifelse(o_gdp &gt; 25000, &quot;developed&quot;, &quot;developing&quot;))  </code></pre>
+</div>
+<div id="continent" class="section level4">
+<h4>Continent</h4>
+<pre class="r"><code>Asia = 
+  c(&quot;Israel&quot;, &quot;United Arab Emirates&quot;, &quot;Singapore&quot;, &quot;Thailand&quot;, &quot;Taiwan Province of China&quot;,
+    &quot;Qatar&quot;, &quot;Saudi Arabia&quot;, &quot;Kuwait&quot;, &quot;Bahrain&quot;, &quot;Malaysia&quot;, &quot;Uzbekistan&quot;, &quot;Japan&quot;,
+    &quot;South Korea&quot;, &quot;Turkmenistan&quot;, &quot;Kazakhstan&quot;, &quot;Turkey&quot;, &quot;Hong Kong S.A.R., China&quot;, &quot;Philippines&quot;,
+    &quot;Jordan&quot;, &quot;China&quot;, &quot;Pakistan&quot;, &quot;Indonesia&quot;, &quot;Azerbaijan&quot;, &quot;Lebanon&quot;, &quot;Vietnam&quot;,
+    &quot;Tajikistan&quot;, &quot;Bhutan&quot;, &quot;Kyrgyzstan&quot;, &quot;Nepal&quot;, &quot;Mongolia&quot;, &quot;Palestinian Territories&quot;,
+    &quot;Iran&quot;, &quot;Bangladesh&quot;, &quot;Myanmar&quot;, &quot;Iraq&quot;, &quot;Sri Lanka&quot;, &quot;Armenia&quot;, &quot;India&quot;, &quot;Georgia&quot;,
+    &quot;Cambodia&quot;, &quot;Afghanistan&quot;, &quot;Yemen&quot;, &quot;Syria&quot;)
+
+Europe = 
+  c(&quot;Norway&quot;, &quot;Denmark&quot;, &quot;Iceland&quot;, &quot;Switzerland&quot;, &quot;Finland&quot;,
+    &quot;Netherlands&quot;, &quot;Sweden&quot;, &quot;Austria&quot;, &quot;Ireland&quot;, &quot;Germany&quot;,
+    &quot;Belgium&quot;, &quot;Luxembourg&quot;, &quot;United Kingdom&quot;, &quot;Czech Republic&quot;,
+    &quot;Malta&quot;, &quot;France&quot;, &quot;Spain&quot;, &quot;Slovakia&quot;, &quot;Poland&quot;, &quot;Italy&quot;,
+    &quot;Russia&quot;, &quot;Lithuania&quot;, &quot;Latvia&quot;, &quot;Moldova&quot;, &quot;Romania&quot;,
+    &quot;Slovenia&quot;, &quot;North Cyprus&quot;, &quot;Cyprus&quot;, &quot;Estonia&quot;, &quot;Belarus&quot;,
+    &quot;Serbia&quot;, &quot;Hungary&quot;, &quot;Croatia&quot;, &quot;Kosovo&quot;, &quot;Montenegro&quot;,
+    &quot;Greece&quot;, &quot;Portugal&quot;, &quot;Bosnia and Herzegovina&quot;, &quot;Macedonia&quot;,
+    &quot;Bulgaria&quot;, &quot;Albania&quot;, &quot;Ukraine&quot;)
+
+North_America = 
+  c(&quot;Canada&quot;, &quot;Costa Rica&quot;, &quot;United States&quot;, &quot;Mexico&quot;,  
+    &quot;Panama&quot;,&quot;Trinidad and Tobago&quot;, &quot;El Salvador&quot;, &quot;Belize&quot;, &quot;Guatemala&quot;,
+    &quot;Jamaica&quot;, &quot;Nicaragua&quot;, &quot;Dominican Republic&quot;, &quot;Honduras&quot;,
+    &quot;Haiti&quot;)
+
+Sorth_America =  
+  c(&quot;Chile&quot;, &quot;Brazil&quot;, &quot;Argentina&quot;, &quot;Uruguay&quot;,
+    &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Bolivia&quot;, &quot;Peru&quot;,
+    &quot;Paraguay&quot;, &quot;Venezuela&quot;)
+
+Australia = 
+  c(&quot;New Zealand&quot;, &quot;Australia&quot;)
+
+happy = happy %&gt;% 
+  mutate(continent = case_when(
+    country %in% Asia ~ &quot;Asia&quot;,
+    country %in% Europe ~ &quot;Europe&quot;,
+    country %in% North_America ~ &quot;North America&quot;,
+    country %in% Sorth_America ~ &quot;South America&quot;,
+    country %in% Australia ~ &quot;Australia&quot;,
+    TRUE ~ as.character(&quot;Africa&quot;)
+  ))
+
+write.csv(happy,file=&quot;data/happy.csv&quot;,quote=F,row.names = F)</code></pre>
+<p>I divide these countries into five continents including Asia, Europe, North America, South America and Australia.</p>
+<pre class="r"><code>suicide = read_csv(&quot;data/sucide.csv&quot;) %&gt;% 
+  select(country,year,sucide_rate = `suicides/100k pop`) %&gt;% 
+  filter(year &gt;= 2007) %&gt;% 
+  arrange(desc(year))
+write.csv(suicide, file = &quot;data/suicide_clean.csv&quot;)</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
