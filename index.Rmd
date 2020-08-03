@@ -8,9 +8,22 @@ output:
 ## Introduction
 Hi! I am Gaotong LIU, and you can just call me Gloria. I am a Master of Science student in Biostatistics expecting to graduate in May 2021, at Mailman School of Public Health at Columbia University. 
 
-This website has some data analysis projects for open data. I hope you can enjoy my analysis and I am welcome any discussion about the projects. You can know more about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if you want to contact me.
+This website has some data analysis and visualization projects for open data. I hope you can enjoy my analysis and I am welcome any discussion about the projects. You can know more about me [here](about.html). You can also [email](mailto:<gl2677@cumc.columbia.edu>) me, if you want to contact me.
 
 ## Projects
+### COVID-19 DSCovR Dashboard 
+
+How COVID-19 case and death number changes over time among states in US?<br />
+How age, race/ethnicity and sex distribute among COVID-19 case, hospitalization and death?<br />
+How state policies change over time?<br />
+<br />
+<img src="images/DSCovR Dashboard .jpg">
+<br />
+
+* The [Demographics by State COVID-19 Reporting (DSCovR) Dashboard](https://gaotongliu.shinyapps.io/dscovr_dashboard/) allows policymakers, scientists, and the lay public to visualize and compare COVID-19 time trends and demographic information among cases, hospitalizations, and deaths across states.
+
+* Meta analysis to study comorbidity and COVID-19 case and death(Waiting for publication).
+
 ### World Happiness Report
 
 Are people getting happier over time?
@@ -24,17 +37,3 @@ Is happiness related to sucide rate and terrorism?
 * To visulaize the relationship between happiness and sucide or terrorism, I create a [Shinny Dashboard](https://yuqimiao.shinyapps.io/Rshinny/).
 
 * To analysis the covariates of the happiness, I use correlation plots and [Mutiple Linear Regression](MLR.html).
-
-
-### COVID-19 DSCovR Dashboard 
-
-How COVID-19 case and death number changes over time among states in US?<br />
-How age, race/ethnicity and sex distribute among COVID-19 case, hospitalization and death?<br />
-How state policies change over time?<br />
-<br />
-<img src="images/DSCovR Dashboard .jpg">
-<br />
-
-* The [Demographics by State COVID-19 Reporting (DSCovR) Dashboard](https://gaotongliu.shinyapps.io/dscovr_dashboard/) allows policymakers, scientists, and the lay public to visualize and compare COVID-19 time trends and demographic information among cases, hospitalizations, and deaths across states.
-
-* Meta analysis to study comorbidity and COVID-19 case and death(Waiting for publication).
