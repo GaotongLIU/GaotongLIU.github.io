@@ -20,6 +20,7 @@ How state policies change over time?<br />
 <img src="images/DSCovR Dashboard .jpg">
 <br />
 
+
 * The [Demographics by State COVID-19 Reporting (DSCovR) Dashboard](https://msph.shinyapps.io/dscovr_dashboard/) allows policymakers, scientists, and the lay public to visualize and compare COVID-19 time trends and demographic information among cases, hospitalizations, and deaths across states.
 
 * Meta analysis to study comorbidity and COVID-19 case and death(Waiting for publication).
