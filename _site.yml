@@ -1,4 +1,5 @@
 name: "my-website"
+output_dir: "."
 navbar:
   title: "My Website"
   type: inverse
@@ -16,6 +17,12 @@ navbar:
   right:
   - text: "Project"
     menu:
+      - text: "House Sale Price Regression Model"
+      - text: "Report"
+        href: gl2677_mtd_project.html
+      - text: "Red Wine Quality Classification Model"
+      - text: "Report"
+        href: final_report.html
       - text: "World Happyiness report"
       - text: "Exploratory Analysis"
         href: World_Happiness.html
@@ -34,5 +41,10 @@ navbar:
   - text: "GitHub"
     icon: fa-github fa-lg
     href: https://github.com/GaotongLIU/GaotongLIU.github.io.git
+    
+output:
+  html_document:
+    theme: flatly
+    
 
   

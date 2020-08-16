@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jiafei Li, jl5548; Gaotong Liu, gl2677; Yuchen Qi, yq2279" />
+
+
+<title>Red Wine Quality Prediction</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About me
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/gaotong-liu-003bb2195/">
+    <span class="fab fa fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">House Sale Price Regression Model</li>
+    <li>
+      <a href="gl2677_mtd_project.html">Report</a>
+    </li>
+    <li class="dropdown-header">Red Wine Quality Classification Model</li>
+    <li>
+      <a href="final_report.html">Report</a>
+    </li>
+    <li class="dropdown-header">World Happyiness report</li>
+    <li>
+      <a href="World_Happiness.html">Exploratory Analysis</a>
+    </li>
+    <li>
+      <a href="global_animation_plot.html">Global animation Map</a>
+    </li>
+    <li>
+      <a href="https://yuqimiao.shinyapps.io/association_plot-copy/">Relationship Shinny</a>
+    </li>
+    <li>
+      <a href="MLR.html">Mutiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="data.html">Data</a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;gl2677@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Email
+  </a>
+</li>
+<li>
+  <a href="https://github.com/GaotongLIU/GaotongLIU.github.io.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Red Wine Quality Prediction</h1>
+<h4 class="author">Jiafei Li, jl5548; Gaotong Liu, gl2677; Yuchen Qi, yq2279</h4>
+<h4 class="date">2020/5/16</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#data-preparation">Data Preparation</a><ul>
+<li><a href="#missing-data-and-variable-type">Missing data and Variable type</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#exploratory-analysis">Exploratory analysis</a><ul>
+<li><a href="#correlations">Correlations</a></li>
+<li><a href="#density-plot">Density plot</a></li>
+</ul></li>
+<li><a href="#models">Models</a><ul>
+<li><a href="#performance">Performance</a></li>
+<li><a href="#explain-prediction">Explain prediction</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This final project aims to find an optimal model in order to better predict red wine quality based on physicochemical tests. The original dataset contains 1599 observations of 11 predictors from physicochemical test (including PH value, density, fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, sulphates, alcohol), and 1 response variable (wine quality), describing features of the Portuguese red wine “Vinho Verde”.</p>
+<div id="data-preparation" class="section level2">
+<h2>Data Preparation</h2>
+<div id="missing-data-and-variable-type" class="section level3">
+<h3>Missing data and Variable type</h3>
+<p>We first examined variable types and missing values of the dataset. As a result, all variables are numeric and there is no variable containing missing data. We converted the response variable “quality” to factor variable of 6 levels, and collapsed them into 2 levels (“poor”, “good”) to balance the total count of different levels. Then we cleaned the dataset, and partitioned the dataset to get training(<span class="math inline">\(\frac{2}{3}\)</span>) and testing data(<span class="math inline">\(\frac{1}{3}\)</span>).</p>
+<pre class="r"><code>df.raw = read_csv(&quot;winequality-red.csv&quot;)
+df = df.raw %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(quality = factor(quality, 
+                             labels = c(&quot;q3&quot;,&quot;q4&quot;,&quot;q5&quot;,&quot;q6&quot;,&quot;q7&quot;,&quot;q8&quot;))) %&gt;% 
+  mutate(quality = fct_collapse(quality,
+                                poor = c(&quot;q3&quot;,&quot;q4&quot;,&quot;q5&quot;),
+                                good = c(&quot;q6&quot;,&quot;q7&quot;,&quot;q8&quot;)))
+
+set.seed(1)
+rowTrain &lt;- createDataPartition(y = df$quality,
+                                p = 2/3,
+                                list = FALSE)
+df.train = df[rowTrain,]
+x = model.matrix(quality~., df.train)[,-1]
+y = df.train$quality
+df.test = df[-rowTrain,]</code></pre>
+</div>
+</div>
+</div>
+<div id="exploratory-analysis" class="section level1">
+<h1>Exploratory analysis</h1>
+<div id="correlations" class="section level2">
+<h2>Correlations</h2>
+<p>11 predictors are all numerical variables. There is no strong correlation (&gt;0.7) between the predictors in the Fig 1. However, fixed_acidicity and citric_acid, fixed_acidicity and density, fixed_acidicity and p_h, free_sulfur_dioxide and total_sulfur_dioxide do have some correaltions(0.7).</p>
+<p><img src="images/1.png" alt="Correlation Matrix Plot"> Fig 1. Correlation Matrix Plot</p>
+<pre class="r"><code>var.numerical = df.train %&gt;% dplyr::select_if(is.numeric) %&gt;% as.matrix()
+var.cor = cor(var.numerical)
+plot1 = cor(var.numerical) %&gt;% 
+  corrplot.mixed(tl.cex = 0.7, tl.pos = &quot;lt&quot;,
+                 number.digits = 1, number.cex = .8,
+                 title = &quot;Figure 1. Correlation Matrix Plot&quot;)
+which((var.cor &gt; 0.7 &amp; var.cor &lt; 1), arr.ind = TRUE)</code></pre>
+</div>
+<div id="density-plot" class="section level2">
+<h2>Density plot</h2>
+<pre class="r"><code>theme1 &lt;- transparentTheme(trans = .4)
+trellis.par.set(theme1)
+
+plot2 = featurePlot(x, 
+            y,
+            scales = list(x=list(relation=&quot;free&quot;), 
+                          y=list(relation=&quot;free&quot;)),
+            plot = &quot;density&quot;, pch = &quot;|&quot;, 
+            auto.key = list(columns = 2),
+             main = &quot;Figure 2. Density plot for predictors and response(good vs poor)&quot;)</code></pre>
+<p>As shown in the Fig 2, most of the predictors such as ph, sulphates, free sulfur dioxide, and residual sugar have similar distributions for the good and poor quality, the alcohol predictor has slightly different distribution for good and poor quality.</p>
+<p><img src="images/2.png" alt="Density Plot"> Fig 2. Density Plot</p>
+</div>
+</div>
+<div id="models" class="section level1">
+<h1>Models</h1>
+<p>All the 11 numeric predictors were included in the models. 8 classification models were used to predict the quality of the red wine (poor and good).</p>
+<pre class="r"><code>ctrl &lt;- trainControl(method = &quot;cv&quot;,
+                     summaryFunction = twoClassSummary,
+                     classProbs = TRUE)</code></pre>
+<div id="linear-discrimininant-analysis-lda" class="section level4">
+<h4>Linear Discrimininant analysis (LDA)</h4>
+<p>LDA projects the feature space onto a smaller subspace while maintaining the class discriminatory information. It has the linear boundary and assumes the same covariance matrix in each class. It is quite robust to the distribution of the classification data when the sample size is small.</p>
+</div>
+<div id="quadratic-discrimininant-analysis-qda" class="section level4">
+<h4>Quadratic Discrimininant analysis (QDA)</h4>
+<p>QDA has the quadratic boundary and assumes different covariance matrix in each class.</p>
+<pre class="r"><code>set.seed(1)
+model.lda &lt;- train(quality~., df, 
+                   subset = rowTrain,
+                   method = &quot;lda&quot;,
+                   metric = &quot;ROC&quot;,
+                   trControl = ctrl)
+lda.pred &lt;- predict(model.lda, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]
+set.seed(1)
+model.qda &lt;- train(quality~., df, 
+                   subset = rowTrain,
+                   method = &quot;qda&quot;,
+                   metric = &quot;ROC&quot;,
+                   trControl = ctrl)
+qda.pred &lt;- predict(model.qda, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]</code></pre>
+</div>
+<div id="k-nearest-neighbor-classifiers-knn" class="section level4">
+<h4>k-Nearest-Neighbor classifiers (KNN)</h4>
+<pre class="r"><code>set.seed(1)
+knn.fit &lt;- train(quality~., df, 
+                   subset = rowTrain,
+                   method = &quot;knn&quot;,
+                   preProcess = c(&quot;center&quot;,&quot;scale&quot;),
+                   tuneGrid = data.frame(k = seq(1,200,by=5)),
+                   trControl = ctrl)
+
+plot3 = ggplot(knn.fit) 
+
+knn.pred &lt;- predict(knn.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]</code></pre>
+<p>It predicts class label given <span class="math inline">\(x_0\)</span> by finding k nearest points in distance to <span class="math inline">\(x_0\)</span> and then classify <span class="math inline">\(x_0\)</span> using majority vote among the kneighbors. The tuning parameter is k with optimal value 41 in the knn model.</p>
+</div>
+<div id="classification-tree" class="section level4">
+<h4>Classification tree</h4>
+<pre class="r"><code>set.seed(1)
+rpart.fit &lt;- train(quality~., df, 
+                   subset = rowTrain,
+                   method = &quot;rpart&quot;,
+                   tuneGrid = data.frame(cp = exp(seq(-8,-5, len = 20))),
+                   trControl = ctrl,
+                   metric = &quot;ROC&quot;)
+plot4 = ggplot(rpart.fit, highlight = TRUE)
+#rpart.plot(rpart.fit$finalModel)
+rpart.pred &lt;- predict(rpart.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]</code></pre>
+<p>Tree-based method uses recursive binary splitting to segment the predictor space into simple regions according to the largest reduction of total varaince across the k classes(Gini index), then predict the class labels by the majority vote in the simple regions. Although single tree can have small bias, the variance is quite large.</p>
+<p>CART approach is used to prune the classification tree. A large tree is grown at first and then prune it back by penalty for tree complexity(<span class="math inline">\(\alpha\)</span> controls). The tuning parameter is cp(<span class="math inline">\(\alpha\)</span>) with optimal value 0.003583 in the single classificaton tree model(CART).</p>
+</div>
+<div id="random-forest" class="section level4">
+<h4>Random Forest</h4>
+<pre class="r"><code>rf.grid &lt;- expand.grid(mtry = 1:6,
+                       splitrule = &quot;gini&quot;,
+                       min.node.size = 1:6)
+set.seed(1)
+rf.fit &lt;- train(quality~., df, 
+                subset = rowTrain,
+                method = &quot;ranger&quot;,
+                tuneGrid = rf.grid,
+                metric = &quot;ROC&quot;,
+                trControl = ctrl)
+
+plot5 = ggplot(rf.fit, highlight = TRUE)
+
+rf.pred &lt;- predict(rf.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]</code></pre>
+<p>Random Forest is one of the ensemble methods which uses collections of single trees to get better predictive performance(lower variance). Random Forest generate B different bootstrapped training data sets and the split in each tree is considered a random selection of m out of p(full set) predictors, then it predicts the class labels by majority vote among B trees.</p>
+<p>The tuning parameters are mtry (m) with optimal value 1, min.node.size(minimal node size) with optimal value 1 in random forest model.(Fig 3.)</p>
+<p><img src="images/3.png" alt="Random forest tuning parameters"> Fig 3. Random forest tuning parameters</p>
+</div>
+<div id="boositngadaboost" class="section level4">
+<h4>Boositng(AdaBoost)</h4>
+<pre class="r"><code>gbmA.grid &lt;- expand.grid(n.trees = c(3000,4000,5000),
+                        interaction.depth = 19:24,
+                        shrinkage = c(0.003,0.004, 0.005),
+                        n.minobsinnode = 1)
+set.seed(1)
+# Adaboost loss function
+gbmA.fit &lt;- train(quality~., df, 
+                 subset = rowTrain, 
+                 tuneGrid = gbmA.grid,
+                 trControl = ctrl,
+                 method = &quot;gbm&quot;,
+                 distribution = &quot;adaboost&quot;,
+                 metric = &quot;ROC&quot;,
+                 verbose = FALSE)
+
+plot6 = ggplot(gbmA.fit, highlight = TRUE)
+
+gbmA.pred &lt;- predict(gbmA.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]</code></pre>
+<p>Boosting grows tree uses information from previously grown trees. AdaBoost repeatedly fit classicication trees to weighted versions of training data and update the weights to better classify.</p>
+<p>The tuning parameter are n.trees(the number of trees) with optimal value 5000, interaction.depth(the complexity of boosted ensemble) with optimal value 23, shrinkage(the rate of boosting learn) with optimal value 0.005, n.minobsinnode(minimal node size) with optimal value 1 in boosting model.(Fig 4.)</p>
+<p><img src="images/4.png" alt="Boosting tuning parameters"> Fig 4. Boosting tuning parameters</p>
+</div>
+<div id="support-vector-machine-linear-kernelsvml" class="section level4">
+<h4>Support Vector Machine Linear kernel(SVML)</h4>
+<pre class="r"><code>set.seed(1)
+svmlinear.fit &lt;- train(quality~., 
+                  df, 
+                   subset = rowTrain,
+                  method = &quot;svmLinear2&quot;, 
+                  preProcess = c(&quot;center&quot;, &quot;scale&quot;), 
+                  tuneGrid = data.frame(cost = exp(seq(-5, 1, len=30))),
+                  trControl = ctrl)
+plot7 = ggplot(svmlinear.fit, highlight = TRUE) 
+
+svml.pred &lt;- predict(svmlinear.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]
+# train error
+pred.svmlinear.train &lt;- predict(svmlinear.fit$finalModel, data = df.train)
+#confusionMatrix(data = pred.svmlinear.train, 
+#               reference = df$quality[rowTrain])
+# test error
+pred.svmlinear.test &lt;- predict(svmlinear.fit, newdata = df.test)
+#confusionMatrix(data = pred.svmlinear.test, 
+#               reference = df$quality[-rowTrain])</code></pre>
+<p>SVM finds a hyperplane to separate the class in feature space and C, as a regularization parameter, controls the margin size and shows the tolerance for observations on the wrong side. Linear kernel has linear boundary. The tuning parameter is cost(C) with optimal value 0.01019 in support vector machine with linear kernel.</p>
+</div>
+<div id="support-vector-machine-radial-kernelsvmr" class="section level4">
+<h4>Support Vector Machine Radial kernel(SVMR)</h4>
+<pre class="r"><code>svmr.grid &lt;- expand.grid(C = exp(seq(-4, 5,len=10)),
+                         sigma = exp(seq(-8,-3,len=5))) 
+set.seed(1)             
+svmradial.fit &lt;- train(quality~., 
+                       data = df, 
+                       subset = rowTrain,
+                       method = &quot;svmRadial&quot;,
+                       preProcess = c(&quot;center&quot;, &quot;scale&quot;),
+                       tuneGrid = svmr.grid,             
+                       trControl = ctrl)
+plot8 = ggplot(svmradial.fit, highlight = TRUE) 
+#svmradial.fit$bestTune 
+svmr.pred &lt;- predict(svmradial.fit, newdata = df[-rowTrain,], type = &quot;prob&quot;)[,1]
+# train error
+pred.svmradial.train &lt;- predict(svmradial.fit, newdata = df.train)
+#confusionMatrix(data = pred.svmradial.train, 
+#               reference = df$quality[rowTrain])
+# test error
+pred.svmradial.test &lt;- predict(svmradial.fit, newdata = df.test)
+#confusionMatrix(data = pred.svmradial.test, 
+#               reference = df$quality[-rowTrain])</code></pre>
+<p>Different from the linear kernel, radial kernel can construct nonlinear classification boundaries. The tuning parameters are cost(C) with optimal value 20.0855, sigma(<span class="math inline">\(\gamma\)</span>, local behavior) 0.04978 in support vector machine with radinal kernel.(Fig 5)</p>
+<p><img src="images/5.png" alt="SVMR tuning parameters"> Fig 5. SVMR tuning parameters</p>
+</div>
+<div id="performance" class="section level2">
+<h2>Performance</h2>
+<pre class="r"><code>resamp &lt;- resamples(list(rf = rf.fit, 
+                         knn = knn.fit,
+                         lda = model.lda,
+                         qda = model.qda,
+                         rpart = rpart.fit,
+                         boosting = gbmA.fit,
+                         svmlinear = svmlinear.fit,
+                         svmradinal = svmradial.fit))
+summary(resamp)</code></pre>
+<pre class="r"><code>roc.lda &lt;- roc(df$quality[-rowTrain], lda.pred)
+roc.qda &lt;- roc(df$quality[-rowTrain], qda.pred)
+roc.knn &lt;- roc(df$quality[-rowTrain], knn.pred)
+roc.rf &lt;- roc(df$quality[-rowTrain], rf.pred)
+roc.rpart &lt;- roc(df$quality[-rowTrain], rpart.pred)
+roc.gbmA &lt;- roc(df$quality[-rowTrain], gbmA.pred)
+roc.svml &lt;- roc(df$quality[-rowTrain], svml.pred)
+roc.svmr &lt;- roc(df$quality[-rowTrain], svmr.pred)
+
+
+
+plot(roc.lda)
+plot(roc.qda, add = TRUE, col = 2)
+plot(roc.knn, add = TRUE, col = 3)
+plot(roc.rf, add = TRUE, col = 4)
+plot(roc.rpart, add = TRUE, col = 5)
+plot(roc.gbmA, add = TRUE, col = 6)
+plot(roc.svml, add = TRUE, col = 7)
+plot(roc.svmr, add = TRUE, col = 8)
+
+
+auc &lt;- c(roc.lda$auc[1], roc.qda$auc[1], roc.knn$auc[1],
+         roc.rf$auc[1], roc.rpart$auc[1], roc.gbmA$auc[1],
+         roc.svml$auc[1], roc.svmr$auc[1])
+
+modelNames &lt;- c(&quot;lda&quot;,&quot;qda&quot;,&quot;knn&quot;,&quot;rf&quot;,&quot;rpart&quot;,&quot;gbmA&quot;,
+                &quot;svml&quot;,&quot;svmr&quot;)
+legend(&quot;bottomright&quot;, legend = paste0(modelNames, &quot;: &quot;, round(auc,3)),
+       col = 1:8, lwd = 2)</code></pre>
+<p>From summary table of training cross validation performence, random forest has largest mean ROC. In addition, from the plot of AUC using test data, random forest has the best test performance.(Fig 6)</p>
+<p><img src="images/6.png" alt="Test ROC"> Fig 6. Test ROC</p>
+<div id="variable-importance" class="section level4">
+<h4>Variable importance</h4>
+<pre class="r"><code>set.seed(1)
+rf.final &lt;- ranger(quality~., df[rowTrain,], 
+                        mtry = 1 ,
+                        min.node.size = 1,
+                        splitrule = &quot;gini&quot;,
+                        importance = &quot;permutation&quot;,
+                        scale.permutation.importance = TRUE) 
+
+plot9 = barplot(
+  sort(ranger::importance(rf.final), decreasing = FALSE), 
+        las = 1, horiz = TRUE, cex.names = 0.6,
+        col = colorRampPalette(colors = c(&quot;cyan&quot;,&quot;blue&quot;))(11),
+  main = &quot;Figure 9: Variable importance from Random Forest&quot;)
+#sort(ranger::importance(rf.final), decreasing = FALSE)</code></pre>
+<p>The top three variables which play important roles of predicting red wine quality are <code>alcohol</code>, <code>sulphates</code> and <code>volatile_acidity</code>.(Fig 7)</p>
+<p><img src="images/7.png" alt="Variable importance"> Fig 7. Variable importance</p>
+</div>
+<div id="pdp" class="section level4">
+<h4>PDP</h4>
+<pre class="r"><code>plot10 &lt;- rf.fit %&gt;% 
+  partial(pred.var = &quot;alcohol&quot;, 
+          grid.resolution = 100,
+          prob = TRUE) %&gt;%
+  autoplot(rug = TRUE, train = df[rowTrain,]) +
+  ggtitle(&quot;Figure 10: PDP for Random forest&quot;) </code></pre>
+<p>The most important variable <code>alcohol</code> is chosen to investigate the typical influence on red wine quality across all observations. From the partial dependence plot, the higher the alcohol, the lower the quality after averaging all the effects of other predictors.</p>
+</div>
+<div id="ice" class="section level4">
+<h4>ICE</h4>
+<pre class="r"><code>ice1.rf &lt;- rf.fit %&gt;% 
+  partial(pred.var = &quot;alcohol&quot;, 
+          grid.resolution = 100,
+          ice = TRUE,
+          prob = TRUE) %&gt;%
+  autoplot(train = df[rowTrain,], alpha = .1) +
+  ggtitle(&quot;Figure 11: ICE:Random forest, non-centered&quot;) 
+
+ice2.rf &lt;- rf.fit %&gt;% 
+  partial(pred.var = &quot;alcohol&quot;, 
+          grid.resolution = 100,
+          ice = TRUE,
+          prob = TRUE) %&gt;%
+  autoplot(train = df[rowTrain,], alpha = .1, 
+           center = TRUE) +
+  ggtitle(&quot;ICE:Random forest, centered&quot;) 
+
+plot11 = grid.arrange(ice1.rf, ice2.rf,
+             nrow = 1, ncol = 2)</code></pre>
+<p>From the individual conditional expectations plot, the higher the alcohol, the lower the quality after ignoring the effects of other predictors. ICE and PDP plots are quite similar, so the alcohol is independent of other predictors.(Fig 8)</p>
+<p><img src="images/8.png" alt="Individual Conditional Expectations plots"> Fig 8. Individual Conditional Expectations plots</p>
+</div>
+</div>
+<div id="explain-prediction" class="section level2">
+<h2>Explain prediction</h2>
+<pre class="r"><code>new_obs &lt;- df[-rowTrain,-12][1:2,]
+explainer.rf &lt;- lime(df[rowTrain,-12], rf.fit)
+explanation.rf &lt;- explain(new_obs, explainer.rf, 
+                          n_features = 3,
+                          labels = &quot;good&quot;)
+plot12 = plot_features(explanation.rf)</code></pre>
+<p>After fitting a simple model around a single observation that mimic how th global model behaves at that locality. The prediction of two new observation can be explained by three features.</p>
+<p>The first new observation is labeled as good quality with probability 0.21. This observation has alcohol smaller than 9.5 and this feature associates with poor quality. This observation has sulphates smaller than 0.55 and this feature associates with poor quality.This observation has chlorides smaller than 0.07 and this feature associates with good quality. (Fig 9)</p>
+<p>The second new observation is labeled as good quality with probability 0.38. This observation has sulphates smaller than 0.55 and this feature associates with poor quality. This observation has density smaller than 0.996 and this feature associates with good quality.This observation has volatile_acidity larger than 0.64 and this feature associates with poor quality. (Fig 9)</p>
+<p><img src="images/8.png" alt="Predication explainatioin(lime)"> Fig 9. Predication explainatioin(lime)</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>The performance of our models is evaluated based on ROC. The random forest model gives the best prediction performance with the ROC mean 0.8797 based on training data. Thus, for the red wine quality, we may choose random forest to predict whether it is poor or good. The test classification error rate is 0.1932 based on the confusion matrix below.</p>
+<p>We expect that predictors having different distributions in the good and poor quality groups are important predictors, and among those predictors <code>alcohol</code>, <code>total_sulfur_dioxide</code>, <code>volatile_acidity</code> do play important roles of predicting red wine quality. As for the model, it is expected that the boosting model will perform best, and the lack of sufficient parameter tuning may account for the choice of random forest instead. We tried different tuning grids, and to find the best tuning parameters we need to expand the tuning grid, but it exceeds our computer capacity. Alternatively, random forest may be the optimal solution for this dataset.</p>
+<pre class="r"><code>rf.pred &lt;- predict(rf.fit, newdata = df[-rowTrain,])
+#confusionMatrix(data = rf.pred,
+#                reference = df$quality[-rowTrain],
+#                positive = &quot;good&quot;)</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

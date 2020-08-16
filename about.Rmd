@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-I am a Master of Science student in Biostatistics expecting to graduate in May 2021, at Mailman School of Public Health at Columbia University. Detailed resume can be found [here](Resume.pdf).
+I am a second-year MS Biostatistics student at Mailman School of Public Health at Columbia University. I worked with great biostatisticians in the COVID-19 visualization and analysis project during the summer. I studied Biotechnology in HK, and I also have research experience in bioinformatics and molecular and cellular biology. I’m especially interested in data analysis in healthcare and pharmaceutical companies. Detailed resume can be found here [English](CV.pdf) / [Chinese](简历.pdf).
 
 ### I love traveling !!!
 This my photo taken during the winter vocation in San Diego this year.

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Gaotong LIU" />
+
+
+<title>House sale Price Prediction Project</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About me
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/gaotong-liu-003bb2195/">
+    <span class="fab fa fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Project
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">House Sale Price Regression Model</li>
+    <li>
+      <a href="gl2677_mtd_project.html">Report</a>
+    </li>
+    <li class="dropdown-header">Red Wine Quality Classification Model</li>
+    <li>
+      <a href="final_report.html">Report</a>
+    </li>
+    <li class="dropdown-header">World Happyiness report</li>
+    <li>
+      <a href="World_Happiness.html">Exploratory Analysis</a>
+    </li>
+    <li>
+      <a href="global_animation_plot.html">Global animation Map</a>
+    </li>
+    <li>
+      <a href="https://yuqimiao.shinyapps.io/association_plot-copy/">Relationship Shinny</a>
+    </li>
+    <li>
+      <a href="MLR.html">Mutiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="data.html">Data</a>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;gl2677@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Email
+  </a>
+</li>
+<li>
+  <a href="https://github.com/GaotongLIU/GaotongLIU.github.io.git">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">House sale Price Prediction Project</h1>
+<h4 class="author">Gaotong LIU</h4>
+<h4 class="date">3/27/2020</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#exploratory-data-analysis">Exploratory data analysis</a><ul>
+<li><a href="#change-variables-type">Change variables type</a></li>
+</ul></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#conclusions">Conclusions</a></li>
+<li><a href="#appendix">Appendix</a><ul>
+<li><a href="#figures-and-tables">Figures and Tables</a></li>
+</ul></li>
+</ul>
+</div>
+
+<pre class="r"><code>house_train_na = read_csv(&quot;data/train.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate_if(is.character,as.factor) </code></pre>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>With 79 explanatory variables describing almost every aspect of residential homes in Ames, Iowa, this project would like to find an optimal regression model to predict the final sale price of each home. There are total 1460 observations,41 categorical variables and 38 numeric variables in the dataset. The variables are mainly evaluating the space of different areas, the quality or material of the building and the location of the house. Detail description can be found in the Appendix.</p>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory data analysis</h2>
+<div id="missing-data" class="section level4">
+<h4>Missing data</h4>
+<pre class="r"><code>## check missing value number and percentage
+na = house_train_na %&gt;% 
+  select_if(function(x) any(is.na(x))) %&gt;% 
+  summarise_each(funs(sum(is.na(.)))) %&gt;% 
+  pivot_longer(everything(),
+               names_to = &quot;variable&quot;,
+               values_to = &quot;na_total&quot;) %&gt;% 
+  mutate(na_per = na_total/nrow(house_train_na)) %&gt;% 
+  dplyr::select(variable, everything()) %&gt;% 
+  arrange(desc(na_per))
+
+table1 = na %&gt;% knitr::kable(caption = &quot;Table 1. Missing data in each varaible with total count and percentage&quot;,
+                             col.names = c(&quot;Variable&quot;, &quot;NA Total&quot;, &quot;NA(%)&quot;))
+
+## Deleting varibales: 
+### id not useful for prediction
+house_train = house_train_na %&gt;% 
+  dplyr::select(-id)
+
+### variables too many missing values
+house_train = house_train %&gt;% 
+  dplyr::select(-c(na$variable[-19]))
+
+## Deleting observation(electrical = 1)
+
+house_train = house_train %&gt;% 
+  na.omit()</code></pre>
+<p>Since some of the variables consists a lot of missing data, the prevalence of the missing data in each variable is investigated to decide whether removing the corresponding observation or removing the corresponding variable (Table 1). In order to remain the sample size, when more than 15% of the data is missing, the corresponding variable is pretended never existed. For the variables related to garage and basement, the most important information can be explained by <code>garage_cars</code>, <code>total_bsmt_sf.</code> Masonry veneer seems to be not essential when people consider buying a house. Therefore, the vaiables related to garage, basement and masonry are also deleted. The corresponding observation of the missing value in <code>electrical</code> is deleted.</p>
+</div>
+<div id="change-variables-type" class="section level3">
+<h3>Change variables type</h3>
+<pre class="r"><code>## numeric
+numeric = house_train %&gt;% 
+  select_if(is.numeric) %&gt;% 
+  select(sort(names(.)))
+
+plot1 = numeric %&gt;% 
+  pivot_longer(everything(),
+               names_to = &quot;varible&quot;) %&gt;% 
+  ggplot(aes(value)) +                    
+  facet_wrap(~ varible, scales = &quot;free&quot;) +  
+  geom_histogram()
+## ordinal
+chart = house_train %&gt;% 
+  select_if(is.factor) %&gt;% 
+  select(sort(names(.)))
+  
+chat_sum = chart %&gt;% summary()
+
+house_train = house_train %&gt;% 
+  mutate(mo_sold = as.factor(mo_sold),
+         yr_sold = as.factor(yr_sold),
+         ms_sub_class = as.factor(ms_sub_class),
+         central_air = as.numeric(central_air),
+         exter_cond = as.numeric(exter_cond),
+         exter_qual = as.numeric(exter_qual),
+         heating_qc = as.numeric(heating_qc),
+         kitchen_qual = as.numeric(kitchen_qual),
+         land_slope = as.numeric(land_slope),
+         lot_shape = as.numeric(lot_shape),
+         utilities = as.numeric(utilities),
+         paved_drive = as.numeric(paved_drive),
+         street = as.numeric(street))</code></pre>
+<p>All character variables are converted into factor variable at the beginning. However, some numeric variables such as <code>mo_sold</code>, <code>ms_sub_class</code>, <code>yr_sold</code> should be converted to factor variables since they are nominal data not ordinal data. Some factor variables such as <code>central_air</code>, <code>exter_cond</code>, <code>exter_qual</code>, <code>heating_qc</code>, <code>kitchen_qual</code>, <code>land_slope</code>, <code>lot_shape</code>, <code>paved_drive</code>, <code>street</code>, <code>utilities</code>, can be converted to numeric variables since they are ordinal data.</p>
+<div id="near-zero-variance" class="section level4">
+<h4>Near zero variance</h4>
+<pre class="r"><code>nz_var = house_train %&gt;% 
+  nearZeroVar(names = TRUE, freqCut = 90/10)
+
+house_train = house_train %&gt;% 
+  select(-c(nz_var))</code></pre>
+<p>Actually, some predictors have a single value for the vast majority of the dataset, and this may cause near zero variance in the model fitting. If the ratio of the frequency of the most common value to the frequency of the second most common value in the variable is larger than 9, this variable will be removed.</p>
+<p>At this point, all variables are complete (No NAs), all predictors are correctly converted to factor variables or numeric variables and near zero variance variables are removed. There are 38 variables including 11 factor variables and 27 numeric variables in the final dataset.</p>
+</div>
+<div id="correlation-of-numeric-variables" class="section level4">
+<h4>Correlation of numeric variables</h4>
+<pre class="r"><code>plot2 = house_train %&gt;% 
+  select_if(is.numeric) %&gt;% 
+  cor() </code></pre>
+<p>From the correlation matrix plot(Figure 1), <code>overall_qual</code> (0.8), <code>gr_liv_area</code> (0.7) are highly correalted with <code>sale_price.</code> <code>total_bsmt_sf</code>, <code>x1st_flr_sf</code>, <code>garage_area</code>, <code>full_bath</code>, <code>garage_cars</code>, <code>exter_qual</code>, <code>kitchen_qual</code> are also correlated with <code>sale_price</code>(<span class="math inline">\(\pm 0.6\)</span>). This implies that people concern overall quality of the house, living area space, basement size, garage size, kitchen quality and bathroom more when they buy the house.</p>
+</div>
+<div id="scatter-plot-of-interested-variables" class="section level4">
+<h4>Scatter plot of interested variables</h4>
+<pre class="r"><code># matrix of predictors 
+x = model.matrix(sale_price ~ overall_qual + total_bsmt_sf +
+                  x1st_flr_sf + gr_liv_area + garage_area +
+                   year_built + year_remod_add +tot_rms_abv_grd 
+                 + full_bath + garage_cars + fireplaces + 
+                   exter_qual + kitchen_qual,
+                 house_train)[,-1]
+# vector of response
+y = house_train$sale_price
+# scatter plot
+theme1 = trellis.par.get()
+theme1$plot.symbol$col = rgb(.2, .4, .2, .5)
+theme1$plot.symbol$pch = 16
+theme1$plot.line$col = rgb(.8, .1, .1, 1)
+theme1$plot.line$lwd = 2
+theme1$strip.background$col = rgb(.0, .2, .6, .2)
+trellis.par.set(theme1)
+plot3 = featurePlot(x, y, 
+            plot = &quot;scatter&quot;, labels = c(&quot;&quot;,&quot;Sale Price&quot;),
+            type = c(&quot;p&quot;), layout = c(4, 2),
+            main = &quot;Figure 2. Scatter plot for predictors and response(sale price)&quot;)</code></pre>
+<p>The predictors with correlation coefficient greater than 0.5 are plotted to show the general relationship with sale_price. From the scatterplot (Figure 2), <code>garage_area</code>, <code>year_built</code>, <code>year_remod_add</code>, <code>overall_qual</code>, <code>kitchen_qual</code>, <code>garage_cars</code> <code>fireplaces</code> and <code>exter_qual</code> may have nonlinear replationship with <code>sale_price</code>.</p>
+</div>
+</div>
+</div>
+<div id="methods" class="section level2">
+<h2>Methods</h2>
+<pre class="r"><code># CV method
+ctrl2 = trainControl(method = &quot;repeatedcv&quot;, 
+                    number = 10, repeats = 5)
+
+ctrl1 = trainControl(method = &quot;cv&quot;, number = 10)
+# matrix of predictors 
+x = model.matrix(sale_price ~ ., house_train)[,-1]
+
+nzv_pred = x %&gt;% nearZeroVar(freqCut = 90/10, 
+              names = TRUE)
+x = x %&gt;% 
+  as_tibble() %&gt;% 
+  select(-nzv_pred) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  as.matrix()
+
+pred = colnames(x)
+# vector of response
+y = house_train$sale_price</code></pre>
+<p>Linear regression model, Ridge regression, Lasso, Kth nearest neighbors algorithm (Knn), Principal component regression (PCR), Partial least squares (PLS), Generalized additive model(GAM) and Multivariate adaptive regression splines (MARS) are applied to the final dataset to predict the sale_price of the house. The performance of each model is compared through RMSE after 10-fold cross validation by <code>caret</code> package(set.seed(2020)).</p>
+<p>The regulariation method Lasso (<span class="math inline">\(\alpha\)</span>=1) and ridge (<span class="math inline">\(\alpha\)</span>=0). The tuning parameter <span class="math inline">\(\lambda\)</span> controls the overall strength of the penalty. It is known that the ridge penalty shrinks the coefficients of correlated predictors towards each other while the lasso tends to pick one of them and discard the others. PCR uses principal component analysis on predictors then regress the components on the response, while PLS is supervised learning and the components are chosen based on predictors and response.</p>
+<p>Knn GAM and MARS are used to capture the nonlinear replationship between predictors and response.</p>
+<p>In order to avoid near zero variance in model design matrix, the levels in each factor variable are also examined. There are only 37 predictors including 11 factor variables(<code>ms_sub_class</code>, <code>ms_zoning</code>, <code>lot_config</code>, <code>neighborhood</code>, <code>house_style</code> <code>roof_style</code>, <code>exterior1st</code>, <code>exterior2nd</code>, <code>foundation</code>, <code>mo_sold</code>, <code>yr_sold</code>) and 26 numeric variables (<code>lot_area</code>, <code>lot_shape</code>, <code>overall_qual</code>, <code>overall_cond</code>, <code>year_built</code>, <code>year_remod_add</code>, <code>exter_qual</code>, <code>exter_cond</code>, <code>bsmt_fin_sf1</code>, <code>bsmt_unf_sf</code>, <code>total_bsmt_sf</code>, <code>heating_qc</code>, <code>x1st_flr_sf</code>, <code>x2nd_flr_sf</code>, <code>gr_liv_area</code>, <code>bsmt_full_bath</code>, <code>full_bath</code>, <code>half_bath</code>, <code>bedroom_abv_gr</code>, <code>kitchen_qual</code>, <code>tot_rms_abv_grd</code>, <code>fireplaces</code>, <code>garage_cars</code>, <code>garage_area</code>, <code>wood_deck_sf</code>, <code>open_porch_sf</code>).</p>
+<pre class="r"><code>set.seed(2020)
+lm_fit = train(x, y,
+              method = &quot;lm&quot;,
+              trControl = ctrl1)</code></pre>
+<pre class="r"><code>set.seed(2020)
+ridge_fit = train(x, y,
+                   method = &quot;glmnet&quot;,
+                   tuneGrid = expand.grid(alpha = 0, 
+                                          lambda = exp(seq(5,15, length = 100))),
+                   trControl = ctrl1)
+
+# plot tunning parameter
+plot4 = plot(ridge_fit, xTrans = function(x) log(x))</code></pre>
+<pre class="r"><code>set.seed(2020)
+lasso_fit = train(x, y,
+                   method = &quot;glmnet&quot;,
+                   tuneGrid = expand.grid(alpha = 1, 
+                                          lambda = exp(seq(0,10, length = 100))),
+                   trControl = ctrl1)
+
+# plot tunning parameter
+plot5 = plot(lasso_fit, xTrans = function(x) log(x))</code></pre>
+<pre class="r"><code>set.seed(2020)
+# Principal components regression
+pcr_fit = train(x,y,
+                method = &quot;pcr&quot;,
+                tuneGrid = data.frame(ncomp = 1:54),
+                trControl = ctrl1,
+                preProcess = c(&quot;center&quot;, &quot;scale&quot;))
+# plot component number M
+plot6 = ggplot(pcr_fit, highlight = TRUE) + theme_bw()</code></pre>
+<pre class="r"><code>set.seed(2020)
+pls_fit = train(x, y,
+                method = &quot;pls&quot;,
+                tuneGrid = data.frame(ncomp = 1:54),
+                trControl = ctrl1,
+                preProc = c(&quot;center&quot;, &quot;scale&quot;))
+
+# plot component number M
+plot7 = ggplot(pcr_fit, highlight = TRUE) + theme_bw()</code></pre>
+<pre class="r"><code>set.seed(2020)
+knn_fit = train(x, y,
+                method = &quot;knn&quot;,
+                trControl = ctrl1)</code></pre>
+<pre class="r"><code>set.seed(2020)
+gam_fit = train(x, y,
+                method = &quot;gam&quot;,
+                tuneGrid = data.frame(method = &quot;GCV.Cp&quot;,
+                                      select = c(TRUE, FALSE)),
+                trControl = ctrl1)</code></pre>
+<pre class="r"><code>mars_grid = expand.grid(degree = 1:2,
+                        nprune = 2:55)
+mars_fit = train(x, y,
+                 method = &quot;earth&quot;,
+                 tuneGrid =  mars_grid,
+                 trControl = ctrl1)</code></pre>
+<pre class="r"><code>resamp = resamples(list(lm = lm_fit,
+                        ridge = ridge_fit,
+                        lasso = lasso_fit,
+                        pcr = pcr_fit,
+                        pls = pls_fit,
+                        knn = knn_fit,
+                        gam  = gam_fit,
+                        mars = mars_fit))
+resamp_sum = summary(resamp)
+bwplot(resamp, metric = &quot;RMSE&quot;, main = &quot;Figure 3. Cross validated RMSE for different models&quot;)</code></pre>
+<p><img src="gl2677_mtd_project_files/figure-html/compare-1.png" width="80%" /></p>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p>For predicting linear relationship between <code>sale_price</code> and predictors, Linear model, Ridge regression with cross-validated optimal <span class="math inline">\(\lambda\)</span> = 1.1410^{4} , <span class="math inline">\(\alpha = 0\)</span>, Lasso with cross-validated optimal <span class="math inline">\(\lambda\)</span> = 316.58 , <span class="math inline">\(\alpha = 1\)</span>, PCR with cross-validated optimal M = 32 and PLS with cross-validated optimal M = 3 are applied.</p>
+<p>For predicting nonlinear relationship, Knn with cross-validated optimal K = 7, GAM and MARS with cross-validated optimal number of predictor is 15 models are applied.</p>
+<p>From cross validated RMSE plot(Figure 3), GAM model does best in prediction, and the mean RMSE is smallest.</p>
+<pre class="r"><code>final_model = gam_fit$finalModel
+
+
+varimp_gam = varImp(gam_fit)
+
+plot9 = plot(varimp_gam, main = &quot;Figure 5. Variable Importance with GAM&quot;)</code></pre>
+<p><strong>From Gam final model</strong> tot_rms_abv_grd, year_remod_add, year_built, open_porch_sf, wood_deck_sf, x2nd_flr_sf, garage_area, bsmt_fin_sf1, total_bsmt_sf, x1st_flr_sf, bsmt_unf_sf, gr_liv_area, lot_area shows nonlinear relationship with the response. The detail relationship are drawn in Figure 4.</p>
+<p>The top 10 important variables are gr_liv_area, overall_qual, bsmt_fin_sf1, overall_cond, lot_area, x2nd_flr_sf, year_built, exter_qual, garage_area, kitchen_qual in Gam model (Figure 5).</p>
+<p>This implies that living space, basement finished area, lot size, second floor size, original construction date are important to predict sale price of the house in nonlinear pattern. And, overall quality and condition of the house, the quality of the material on the exterior, garage area, kitchen quality are important to predict sale price of the house in linear pattern.</p>
+</div>
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>There are indeed some non-linear relationship in predictors with <code>sale_price</code> like I have guessed in exploratory analysis. The most important predictors are living area space, overall quality and basement size to predict sale price of the house in Generalized additive model. However, one limitation of the gam model inside <code>caret</code> is that it is not flexible enough to capture more flexible patterns such as tensor product interactions(bivariate nonlinear function). The gam model might loss the flexibility.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="appendix" class="section level2">
+<h2>Appendix</h2>
+<div id="figures-and-tables" class="section level3">
+<h3>Figures and Tables</h3>
+<pre class="r"><code>table1 # missing data</code></pre>
+<table>
+<caption>Table 1. Missing data in each varaible with total count and percentage</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="right">NA Total</th>
+<th align="right">NA(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">pool_qc</td>
+<td align="right">1453</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="left">misc_feature</td>
+<td align="right">1406</td>
+<td align="right">0.96</td>
+</tr>
+<tr class="odd">
+<td align="left">alley</td>
+<td align="right">1369</td>
+<td align="right">0.94</td>
+</tr>
+<tr class="even">
+<td align="left">fence</td>
+<td align="right">1179</td>
+<td align="right">0.81</td>
+</tr>
+<tr class="odd">
+<td align="left">fireplace_qu</td>
+<td align="right">690</td>
+<td align="right">0.47</td>
+</tr>
+<tr class="even">
+<td align="left">lot_frontage</td>
+<td align="right">259</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="odd">
+<td align="left">garage_type</td>
+<td align="right">81</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="even">
+<td align="left">garage_yr_blt</td>
+<td align="right">81</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="odd">
+<td align="left">garage_finish</td>
+<td align="right">81</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="even">
+<td align="left">garage_qual</td>
+<td align="right">81</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="odd">
+<td align="left">garage_cond</td>
+<td align="right">81</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="even">
+<td align="left">bsmt_exposure</td>
+<td align="right">38</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">bsmt_fin_type2</td>
+<td align="right">38</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="even">
+<td align="left">bsmt_qual</td>
+<td align="right">37</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">bsmt_cond</td>
+<td align="right">37</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="even">
+<td align="left">bsmt_fin_type1</td>
+<td align="right">37</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">mas_vnr_type</td>
+<td align="right">8</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="even">
+<td align="left">mas_vnr_area</td>
+<td align="right">8</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="odd">
+<td align="left">electrical</td>
+<td align="right">1</td>
+<td align="right">0.00</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># correltaion
+plot2 %&gt;% 
+  corrplot.mixed(tl.cex = 0.5, tl.pos = &quot;lt&quot;,
+                 number.digits = 1, number.cex = .5,
+                 title = &quot;Figure 1. Correlation Matrix Plot&quot;)</code></pre>
+<p><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
+<pre class="r"><code>plot3 # scatterplot</code></pre>
+<p><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-3-1.png" width="960" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-3-2.png" width="960" /></p>
+<div id="figure-4.-partial-dependent-plot-of-nonlinear-predictors-for-response" class="section level4">
+<h4>Figure 4. Partial dependent plot of nonlinear predictors for response</h4>
+<pre class="r"><code>for (i in c(&quot;tot_rms_abv_grd&quot;, &quot;year_remod_add&quot;, &quot;year_built&quot;, &quot;open_porch_sf&quot;, &quot;wood_deck_sf&quot;, &quot;x2nd_flr_sf&quot;, &quot;garage_area&quot;,  &quot;bsmt_fin_sf1&quot;, &quot;total_bsmt_sf&quot;, &quot;x1st_flr_sf&quot;, &quot;bsmt_unf_sf&quot;, &quot;gr_liv_area&quot;, &quot;lot_area&quot;)){
+  
+  plot = partial(gam_fit, pred.var = c(i),
+        grid.resolution = 10) %&gt;% autoplot()
+  print(plot)
+  
+}</code></pre>
+<p><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-1.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-2.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-3.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-4.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-5.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-6.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-7.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-8.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-9.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-10.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-11.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-12.png" width="25%" /><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-4-13.png" width="25%" /></p>
+<pre class="r"><code>plot9 # importance</code></pre>
+<p><img src="gl2677_mtd_project_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
+<pre class="r"><code>plot4 #ridge tune parameter
+plot5 # lasso
+plot6 # pcr
+plot7 #pls
+plot1 # histogram of numeric
+
+resamp_sum #model compare summary
+summary(final_model) # gam</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

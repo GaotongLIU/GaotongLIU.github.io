@@ -24,6 +24,13 @@ How state policies change over time?<br />
 * The [Demographics by State COVID-19 Reporting (DSCovR) Dashboard](https://msph.shinyapps.io/dscovr_dashboard/) allows policymakers, scientists, and the lay public to visualize and compare COVID-19 time trends and demographic information among cases, hospitalizations, and deaths across states.
 
 * Meta analysis to study comorbidity and COVID-19 case and death(Waiting for publication).
+### Machine Learning Prediction Project
+
+### House Sale Price Regression Models
+* Using Linear regression model, Ridge regression, Lasso, Kth nearest neighbors algorithm (Knn), Principal com- ponent regression (PCR), Partial least squares (PLS), Generalized additive model(GAM) and Multivariate adaptive regression splines (MARS) to find an optimal regression model to predict the final sale price of each house.Detailed Report can be accessed [here](gl2677_mtd_project.html).
+
+### Red Wine Quality Classification Models
+* Applied Linear Discrimininant analysis (LDA), Quadratic Discrimininant analysis (QDA), k-Nearest-Neighbor classifiers (KNN), Classification tree, Random Forest, Boositng(AdaBoost) and Support Vector Machine (SVM) to predict red wine quality based on physicochemical tests. Detailed Report can be accessed [here](final_report.html).
 
 ### World Happiness Report
 
